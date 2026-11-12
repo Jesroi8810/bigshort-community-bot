@@ -57,7 +57,7 @@ Thank you for your attention to this matter!`)
         .setColor('#2563EB')
         .setTitle('⚡ Power Hour')
         .setDescription(`The last hour of the trading day when institutional activity often distorts typical patterns; requires cautious interpretation.`)
-        .setImage('https://media.discordapp.net/attachments/1563302658293629001/1566917562191708179/image.png?ex=6aea4932&is=6ae8f7b2&hm=e0134e6e67b0d29c875a3e8bc7ab7ee7f7923d18b04ab1fdcd57cd519c6e89c7&=&format=webp&quality=lossless')
+        .setImage('https://raw.githubusercontent.com/Jesroi8810/bigshort-community-bot/main/Images/powerhour.png')
         .setFooter({ text: 'BigShort Community Bot' })
         .setTimestamp();
 
