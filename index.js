@@ -66,7 +66,7 @@ Thank you for your attention to this matter!`)
         '0 15 * * 1-5',
         async () => {
 
-            const channel = await client.channels.fetch('1563302658293629001');
+            const channel = await client.channels.fetch('1286480342009774080');
 
             await channel.send({
                 embeds: [powerHourEmbed]
