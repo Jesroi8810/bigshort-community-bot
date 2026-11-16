@@ -50,7 +50,7 @@ Thank you for your attention to this matter!`)
     );
 
     // ==========================
-    // DAILY POWER HOUR
+    // WEEKDAY POWER HOUR
     // ==========================
 
     const powerHourEmbed = new EmbedBuilder()
@@ -61,18 +61,18 @@ Thank you for your attention to this matter!`)
         .setFooter({ text: 'BigShort Community Bot' })
         .setTimestamp();
 
-    // Daily 3:00 PM Eastern
+    // Monday-Friday 3:00 PM Eastern
     cron.schedule(
-        '0 15 * * *',
+        '0 15 * * 1-5',
         async () => {
 
-            const channel = await client.channels.fetch('1286480342009774080');
+            const channel = await client.channels.fetch('1563302658293629001');
 
             await channel.send({
                 embeds: [powerHourEmbed]
             });
 
-            console.log('✅ Daily Power Hour Sent');
+            console.log('✅ Weekday Power Hour Sent');
 
         },
         {
@@ -138,7 +138,7 @@ Thank you for joining us, and welcome aboard!`)
     );
 
     console.log('📅 Tuesday schedule loaded');
-    console.log('📅 Daily 3PM Power Hour schedule loaded');
+    console.log('📅 Weekday 3PM Power Hour schedule loaded');
     console.log('📅 Thursday schedule loaded');
 
 });
