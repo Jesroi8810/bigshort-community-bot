@@ -10,6 +10,31 @@ const client = new Client({
 client.once('clientReady', async () => {
 
     console.log(`✅ Logged in as ${client.user.tag}`);
+// ==========================
+// MORNING ROLL CALL MESSAGES
+// ==========================
+
+const morningMessages = [
+`☀️ **Good morning, BigShort traders!** ☕
+
+Get your charts ready and your game plan in place. Trading starts in **10 minutes**. Let's stay disciplined, follow the data, and have a great trading day! 📈🚀`,
+
+`☀️ **Good morning, BigShort traders!**
+
+The market will be opening soon. Stay patient, stay selective, and let the setups come to you. Trading begins in **10 minutes**. ☕📊🔥`,
+
+`☀️ **Good morning, BigShort traders!**
+
+A new trading day means new opportunities. Trust your process, protect your capital, and trade your edge. We're live in **10 minutes**! ☕⏰📈`,
+
+`☀️ **Good morning, BigShort traders!** ☕
+
+Trading starts in **10 minutes**. Take a moment to review your levels, check the flows, and come in with a plan. Let's have a focused and profitable session. 📊🔥🚀`,
+
+`☀️ **Good morning, BigShort traders!** ☕
+
+Trading begins in **10 minutes**. Grab your coffee, review your charts, and get ready for the day ahead. Stay disciplined, trust the data, and let the market come to you. 📈🔥⏰`
+];
 
     // ==========================
     // TUESDAY FRIENDLY REMINDER
@@ -48,7 +73,29 @@ Thank you for your attention to this matter!`)
             timezone: 'America/New_York'
         }
     );
+// ==========================
+// WEEKDAY MORNING ROLL CALL
+// ==========================
 
+// Monday-Friday 9:20 AM Eastern
+cron.schedule(
+    '20 9 * * 1-5',
+    async () => {
+
+        const channel = await client.channels.fetch('1286480342009774080');
+
+        const randomMessage =
+            morningMessages[Math.floor(Math.random() * morningMessages.length)];
+
+        await channel.send(randomMessage);
+
+        console.log('✅ Morning Roll Call Sent');
+
+    },
+    {
+        timezone: 'America/New_York'
+    }
+);
     // ==========================
     // WEEKDAY POWER HOUR
     // ==========================
@@ -138,6 +185,7 @@ Thank you for joining us, and welcome aboard!`)
     );
 
     console.log('📅 Tuesday schedule loaded');
+    console.log('📅 Weekday 9:20AM Morning Roll Call schedule loaded');
     console.log('📅 Weekday 3PM Power Hour schedule loaded');
     console.log('📅 Thursday schedule loaded');
 
