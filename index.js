@@ -2,11 +2,13 @@ require('dotenv').config();
 
 const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const cron = require('node-cron');
-
+const { isHoliday } = require('nyse-holidays');
 const client = new Client({
     intents: [GatewayIntentBits.Guilds]
 });
-
+function isTradingDay() {
+    return !isHoliday(new Date());
+}
 client.once('clientReady', async () => {
 
     console.log(`✅ Logged in as ${client.user.tag}`);
@@ -82,12 +84,16 @@ cron.schedule(
     '20 9 * * 1-5',
     async () => {
 
-        const channel = await client.channels.fetch('1286480342009774080');
+        if (!isTradingDay()) {
+    console.log('⛔ NYSE Holiday - Morning Roll Call skipped');
+    return;
+}
+const channel = await client.channels.fetch('1286480342009774080');
 
-        const randomMessage =
-            morningMessages[Math.floor(Math.random() * morningMessages.length)];
+const randomMessage =
+    morningMessages[Math.floor(Math.random() * morningMessages.length)];
 
-        await channel.send(randomMessage);
+await channel.send(randomMessage);
 
         console.log('✅ Morning Roll Call Sent');
 
@@ -113,11 +119,16 @@ cron.schedule(
         '0 15 * * 1-5',
         async () => {
 
-            const channel = await client.channels.fetch('1286480342009774080');
+            if (!isTradingDay()) {
+    console.log('⛔ NYSE Holiday - Power Hour skipped');
+    return;
+}
 
-            await channel.send({
-                embeds: [powerHourEmbed]
-            });
+const channel = await client.channels.fetch('1286480342009774080');
+
+await channel.send({
+    embeds: [powerHourEmbed]
+});
 
             console.log('✅ Weekday Power Hour Sent');
 
