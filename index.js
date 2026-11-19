@@ -4,11 +4,45 @@ const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const cron = require('node-cron');
 const { isHoliday } = require('nyse-holidays');
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds]
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers
+    ]
 });
 function isTradingDay() {
     return !isHoliday(new Date());
 }
+// ==========================
+// AUTO WELCOME NEW MEMBERS
+// ==========================
+
+client.on('guildMemberAdd', async (member) => {
+
+    try {
+
+        const channel = await client.channels.fetch('1098243247584854028');
+
+        await channel.send(
+`👋 Hi ${member}, welcome to BigShort!
+
+If you're already subscribed, you can join our Members‑Only Discord channels by following this guide:
+
+https://help.bigshort.com/en/articles/10372185-how-to-join-our-members-only-discord-channels
+
+📓 Need help getting started? Feel free to visit #bigshort-tutoring and ask questions. Our community is always happy to help.
+
+🚀 We're glad to have you here. Happy trading!`
+        );
+
+        console.log(`✅ Welcomed ${member.user.tag}`);
+
+    } catch (error) {
+
+        console.error('Welcome message failed:', error);
+
+    }
+
+});
 client.once('clientReady', async () => {
 
     console.log(`✅ Logged in as ${client.user.tag}`);
