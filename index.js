@@ -22,8 +22,12 @@ client.on('guildMemberAdd', async (member) => {
 
         const channel = await client.channels.fetch('1098243247584854028');
 
+        // The link below is what makes Discord show the image preview card
+        // at the bottom of the message, so keep it in the message text.
         await channel.send(
 `👋 Hi ${member}, welcome to BigShort!
+
+⚠️ **SCAM WARNING:** Just reminding you that the founders: Tae, Andrew & Sara (or anyone affiliated with BigShort) would never DM you to solicit anything! It’s a scam!
 
 If you're already subscribed, you can join our Members‑Only Discord channels by following this guide:
 
@@ -280,4 +284,5 @@ Thank you for joining us, and welcome aboard!`)
 
 });
 
+// Login must come last, after the client and all event handlers are set up
 client.login(process.env.BOT_TOKEN);
