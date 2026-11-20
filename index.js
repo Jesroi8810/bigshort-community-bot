@@ -43,6 +43,50 @@ https://help.bigshort.com/en/articles/10372185-how-to-join-our-members-only-disc
     }
 
 });
+// ==========================
+// PREMIUM SUBSCRIBER WELCOME
+// ==========================
+
+client.on('guildMemberUpdate', async (oldMember, newMember) => {
+
+    const subscriberRoleId = '1193587147807133786';
+
+    const hadRole = oldMember.roles.cache.has(subscriberRoleId);
+    const hasRole = newMember.roles.cache.has(subscriberRoleId);
+
+    // User just became a subscriber
+    if (!hadRole && hasRole) {
+
+        try {
+
+            const channel = await client.channels.fetch('1175182341220605983');
+
+            await channel.send(
+`🎉 Welcome to BigShort Premium, ${newMember}!
+
+Your subscription is now active and you now have access to our Members‑Only channels.
+
+📊 market-chat
+🔥 spy-trades
+📈 other-trades
+👑 official-tae-recs
+💡 product-feedback
+
+Take some time to explore the community and don't hesitate to ask questions.
+
+Happy trading and welcome aboard! 🚀📈`
+            );
+
+            console.log(`✅ Premium Welcome Sent to ${newMember.user.tag}`);
+
+        } catch (error) {
+
+            console.error('Premium welcome failed:', error);
+
+        }
+    }
+
+});
 client.once('clientReady', async () => {
 
     console.log(`✅ Logged in as ${client.user.tag}`);
