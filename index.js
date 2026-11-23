@@ -15,8 +15,67 @@ function isTradingDay() {
 // ==========================
 // AUTO WELCOME NEW MEMBERS
 // ==========================
+const protectedNames = [
+    'ilyatrades',
+    'beatdabest',
+    'andrew',
+    'andrew_the_coder',
+    'hobotae',
+    'sara',
+    'sara246'
+];
 
+const alertUsers = [
+    '195011046661029888', // Ilya
+    '1065565527516393503' // Jeff
+];
 client.on('guildMemberAdd', async (member) => {
+
+    const username = member.user.username.toLowerCase();
+    const displayName = member.displayName.toLowerCase();
+
+    const matchedName = protectedNames.find(name =>
+        username.includes(name) ||
+        displayName.includes(name)
+    );
+
+    if (matchedName) {
+
+        for (const userId of alertUsers) {
+
+            try {
+
+                const user = await client.users.fetch(userId);
+
+                await user.send(
+`🚨 POSSIBLE IMPERSONATION DETECTED
+
+User: ${member}
+
+Display Name:
+${member.displayName}
+
+Username:
+${member.user.username}
+
+Matched Protected Name:
+${matchedName}
+
+User ID:
+${member.id}
+
+Please review manually.`
+                );
+
+            } catch (err) {
+
+                console.error(`Failed to DM alert to ${userId}:`, err);
+
+            }
+        }
+
+        console.log(`🚨 Impersonation Alert Triggered for ${member.user.tag}`);
+    }
 
     try {
 
