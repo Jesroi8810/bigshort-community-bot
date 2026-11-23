@@ -27,7 +27,7 @@ client.on('guildMemberAdd', async (member) => {
         await channel.send(
 `👋 Hi ${member}, welcome to BigShort!
 
-⚠️ **SCAM WARNING:** Just reminding you that the founders: Tae, Andrew, Sara & Ilya (or anyone affiliated with BigShort) would never DM you to solicit anything! It’s a scam!
+⚠️ **SCAM WARNING:** Just reminding you that the BigShort team: Tae, Andrew, Sara & Ilya (or anyone affiliated with BigShort) would never DM you to solicit anything! It’s a scam!
 
 If you're already subscribed, you can join our Members‑Only Discord channels by following this guide:
 
