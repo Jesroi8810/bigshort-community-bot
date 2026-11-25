@@ -3,10 +3,13 @@ require('dotenv').config();
 const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const cron = require('node-cron');
 const { isHoliday } = require('nyse-holidays');
+const fs = require('fs');
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMembers
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent
     ]
 });
 function isTradingDay() {
@@ -147,6 +150,63 @@ Happy trading and welcome aboard! 🚀📈`
             console.error('Premium welcome failed:', error);
 
         }
+    }
+
+});
+// ==========================
+// FOLLOW TRADER NOTIFICATIONS
+// ==========================
+
+client.on('messageCreate', async (message) => {
+
+    if (message.author.bot) return;
+
+    try {
+
+        const data = JSON.parse(
+            fs.readFileSync('./subscriptions.json', 'utf8')
+        );
+
+        const followers = data[message.author.id];
+
+        if (!followers) return;
+
+        for (const followerId of followers) {
+
+            try {
+
+                const user = await client.users.fetch(followerId);
+
+                await user.send(
+`📢 ${message.author.username} posted in #${message.channel.name}
+
+${message.content}
+
+Jump to message:
+${message.url}`
+                );
+
+            } catch (err) {
+
+                console.error(
+                    `Failed to notify follower ${followerId}:`,
+                    err
+                );
+
+            }
+        }
+
+        console.log(
+            `📢 Notification sent for ${message.author.username}`
+        );
+
+    } catch (err) {
+
+        console.error(
+            'Follow notification error:',
+            err
+        );
+
     }
 
 });
